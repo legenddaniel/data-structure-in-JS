@@ -7,11 +7,19 @@ class StackByArray { // Should extends Vector
 
     /**
      * @desc Initializes the stack with an array. If no argument passed will be initialized as an empty stack.
-     * @param {array|undefined} array 
      */
-    constructor(array) {
-        if (!Array.isArray(array) && arguments.length) throw 'Parameter must be empty or an array!'
-        this.stack = array || [];
+    constructor() {
+        this.items = [];
+    }
+
+    /**
+     * @desc Empty the stack and return the length of the stack before clearing.
+     * @return {number}
+     */
+    clear() {
+        const l = this.items.length;
+        this.items.length = 0;
+        return l;
     }
 
     /**
@@ -19,7 +27,7 @@ class StackByArray { // Should extends Vector
      * @return {boolean}
      */
     empty() {
-        return !this.stack.length;
+        return !this.items.length;
     }
 
     /**
@@ -27,7 +35,7 @@ class StackByArray { // Should extends Vector
      * @return {*}
      */
     peek() {
-        const stack = this.stack;
+        const stack = this.items;
         return stack[stack.length - 1];
     }
 
@@ -36,16 +44,16 @@ class StackByArray { // Should extends Vector
      * @return {*}
      */
     pop() {
-        return this.stack.pop();
+        return this.items.pop();
     }
 
     /**
      * @desc Pushes the element onto the stack. Element is also returned.
-     * @param {*} element Element being pushed
+     * @param {*} element
      * @return {*}
      */
     push(element) {
-        this.stack.push(element);
+        this.items.push(element);
         return element;
     }
 
@@ -55,7 +63,15 @@ class StackByArray { // Should extends Vector
      * @return {number}
      */
     search(element) {
-        return this.stack.indexOf(element);
+        return this.items.indexOf(element);
+    }
+
+    /**
+     * @desc Retrive the number of elements in the stack.
+     * @return {number}
+     */
+    size() {
+        return this.items.length;
     }
 
     /**
@@ -63,6 +79,6 @@ class StackByArray { // Should extends Vector
      * @return {string}
      */
     toString() {
-        return this.stack + '';
+        return this.items + '';
     }
 }

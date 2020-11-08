@@ -6,11 +6,9 @@ class QueueByArray {
 
     /**
      * @desc Initialize the queue with an array. If no argument passed will be initialized as an empty queue.
-     * @param {array|undefined} array 
      */
-    constructor(array) {
-        if (!Array.isArray(array) && arguments.length) throw 'Parameter must be empty or an array!'
-        this.queue = array || [];
+    constructor() {
+        this.items = [];
     }
 
     /**
@@ -18,7 +16,7 @@ class QueueByArray {
      * @return {*}
      */
     back() {
-        const queue = this.queue;
+        const queue = this.items;
         return queue[queue.length - 1];
     }
 
@@ -27,8 +25,8 @@ class QueueByArray {
      * @return {number}
      */
     clear() {
-        const l = this.queue.length;
-        this.queue.length = 0;
+        const l = this.items.length;
+        this.items.length = 0;
         return l;
     }
 
@@ -37,7 +35,7 @@ class QueueByArray {
      * @return {*}
      */
     dequeue() {
-        return this.queue.shift();
+        return this.items.shift();
     }
 
     /**
@@ -45,17 +43,17 @@ class QueueByArray {
      * @return {boolean}
      */
     empty() {
-        return !this.queue.length;
+        return !this.items.length;
     }
 
     /**
-     * @desc Inserts the specified element into this queue if it is possible to do so immediately without violating capacity restrictions, returning true upon success.
+     * @desc Inserts the specified element into this queue if it is possible to do so immediately without violating capacity restrictions, returning the new added element.
      * @param {*} element 
-     * @return {boolean}
+     * @return {*}
      */
     enqueue(element) {
-        this.queue.push(element);
-        return true;
+        this.items.push(element);
+        return element;
     }
 
     /**
@@ -63,7 +61,15 @@ class QueueByArray {
      * @return {*}
      */
     front() {
-        return this.queue[0];
+        return this.items[0];
+    }
+
+    /**
+     * @desc Retrive the number of elements in the stack.
+     * @return {number}
+     */
+    size() {
+        return this.items.length;
     }
 
     /**
@@ -71,6 +77,6 @@ class QueueByArray {
      * @return {string}
      */
     toString() {
-        return this.queue + '';
+        return this.items + '';
     }
 }
