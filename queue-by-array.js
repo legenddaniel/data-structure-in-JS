@@ -5,19 +5,10 @@ The queue interface is provided in java.util package and it implements the Colle
 class QueueByArray {
 
     /**
-     * @desc Initialize the queue with an array. If no argument passed will be initialized as an empty queue.
+     * @desc Initialize the queue with an array.
      */
     constructor() {
         this.items = [];
-    }
-
-    /**
-     * @desc Retrieves, but does not remove, the end of this queue.
-     * @return {*}
-     */
-    back() {
-        const queue = this.items;
-        return queue[queue.length - 1];
     }
 
     /**
@@ -39,28 +30,37 @@ class QueueByArray {
     }
 
     /**
-     * @desc Tests if this queue is empty. Returns true if the queue is empty, and returns false if the queue contains elements.
-     * @return {boolean}
+     * @desc Inserts the specified elements into this queue if it is possible to do so immediately without violating capacity restrictions, returning the new added elements.
+     * @param {...*} elements
+     * @return {*}
      */
-    empty() {
-        return !this.items.length;
+    enqueue(...elements) {
+        this.items.push(...elements);
+        return elements.length > 2 ? elements : element[0];
     }
 
     /**
-     * @desc Inserts the specified element into this queue if it is possible to do so immediately without violating capacity restrictions, returning the new added element.
-     * @param {*} element 
+     * @desc Retrieves, but does not remove, the end of this queue.
      * @return {*}
      */
-    enqueue(element) {
-        this.items.push(element);
-        return element;
+    getLast() {
+        const queue = this.items;
+        return queue[queue.length - 1];
+    }
+
+    /**
+     * @desc Tests if this queue is empty. Returns true if the queue is empty, and returns false if the queue contains elements.
+     * @return {boolean}
+     */
+    isEmpty() {
+        return !this.items.length;
     }
 
     /**
      * @desc Retrieves, but does not remove, the head of this queue.
      * @return {*}
      */
-    front() {
+    peek() {
         return this.items[0];
     }
 

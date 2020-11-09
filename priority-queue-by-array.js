@@ -9,19 +9,10 @@ Lowest priority elements are removed first.
 class PriorityQueueByArray {
 
     /**
-     * @desc Initialize the queue with an array. If no argument passed will be initialized as an empty queue.
+     * @desc Initialize the queue with an array.
      */
     constructor() {
         this.items = [];
-    }
-
-    /**
-     * @desc Retrieves, but does not remove, the end of this queue.
-     * @return {object}
-     */
-    back() {
-        const queue = this.items;
-        return queue[queue.length - 1].element;
     }
 
     /**
@@ -30,14 +21,6 @@ class PriorityQueueByArray {
      */
     dequeue() {
         return this.items.shift();
-    }
-
-    /**
-     * @desc Tests if this queue is empty. Returns true if the queue is empty, and returns false if the queue contains elements.
-     * @return {boolean}
-     */
-    empty() {
-        return !this.items.length;
     }
 
     /**
@@ -59,10 +42,27 @@ class PriorityQueueByArray {
     }
 
     /**
+     * @desc Retrieves, but does not remove, the end of this queue.
+     * @return {object}
+     */
+    getLast() {
+        const queue = this.items;
+        return queue[queue.length - 1].element;
+    }
+
+    /**
+     * @desc Tests if this queue is empty. Returns true if the queue is empty, and returns false if the queue contains elements.
+     * @return {boolean}
+     */
+    isEmpty() {
+        return !this.items.length;
+    }
+
+    /**
      * @desc Retrieves, but does not remove, the head of this queue.
      * @return {object}
      */
-    front() {
+    peek() {
         return this.items[0].element;
     }
 

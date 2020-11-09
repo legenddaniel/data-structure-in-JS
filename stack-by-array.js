@@ -26,7 +26,7 @@ class StackByArray { // Should extends Vector
      * @desc Tests if this stack is empty. Returns true if the stack is empty, and returns false if the stack contains elements.
      * @return {boolean}
      */
-    empty() {
+    isEmpty() {
         return !this.items.length;
     }
 
@@ -48,13 +48,13 @@ class StackByArray { // Should extends Vector
     }
 
     /**
-     * @desc Pushes the element onto the stack. Element is also returned.
-     * @param {*} element
+     * @desc Pushes the elements onto the stack. Elements is also returned.
+     * @param {...*} elements
      * @return {*}
      */
-    push(element) {
-        this.items.push(element);
-        return element;
+    push(...elements) {
+        this.items.push(...elements);
+        return elements.length > 2 ? elements : elements[0];
     }
 
     /**
