@@ -129,4 +129,18 @@ class SinglyLinkedList {
 
         return l > 1 ? items : items[0];
     }
+
+    /**
+     * @desc Print the list.
+     * @return {string}
+     */
+    toString() {
+        let string = '';
+        let current = this.head;
+        while (current) {
+            string += current.data + ' ';
+            current = current.next;
+        }
+        return string.trim();
+    }
 }
