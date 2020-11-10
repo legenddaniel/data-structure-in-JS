@@ -62,13 +62,39 @@ class SinglyLinkedList {
         return this.get(this.length - 1);
     }
 
+    /** (Function may not work properly)
+     * @desc It is used to return the index in a list of the first occurrence of the specified element, or -1 if the list does not contain any element.
+     * @param {*} element 
+     * @return {number}
+     */
+    indexOf(element) {
+        let current = this.head;
+        let index = 0;
+        while (current) {
+            const data = current.data;
+            const type = typeof data;
+
+            if (type !== 'object' && data === element) {
+                return index;
+            }
+
+            if (type === 'object' && JSON.stringify(data) === JSON.stringify(element)) {
+                return index;
+            }
+
+            current = current.next;
+            index++;
+        }
+        return -1;
+    }
+
     /**
      * @desc It is used to insert the specified element at the specified position index in a list.
-     * @param {*} element 
      * @param {number} index 
+     * @param {*} element 
      * @return {object}
      */
-    insert(element, index) {
+    insert(index, element) {
         if (!isNonNegativeInteger(index) || index > this.length) {
             throw `Invalid Index! (min: 0, max: ${this.length})`;
         }
@@ -95,6 +121,14 @@ class SinglyLinkedList {
         this.length++;
 
         return item;
+    }
+
+    /**
+     * @desc Check if the list is empty.
+     * @return {boolean}
+     */
+    isEmpty() {
+        return !this.length;
     }
 
     /**
@@ -131,6 +165,14 @@ class SinglyLinkedList {
     }
 
     /**
+     * @desc It is used to return the number of elements in a list.
+     * @return {number}
+     */
+    size() {
+        return this.length;
+    }
+
+    /**
      * @desc Print the list.
      * @return {string}
      */
@@ -142,5 +184,17 @@ class SinglyLinkedList {
             current = current.next;
         }
         return string.trim();
+    }
+
+    /**
+     * @desc It replaces the element at the specified position in a list with the specified element.
+     * @param {number} index 
+     * @param {*} element 
+     * @return {object}
+     */
+    update(index, element) {
+        const current = this.get(index);
+        current.data = element;
+        return current;
     }
 }
