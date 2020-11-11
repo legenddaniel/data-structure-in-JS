@@ -7,6 +7,16 @@ const isNonNegativeInteger = input => {
     return typeof input === 'number' && input >= 0 && !(input % 1);
 }
 
+/**
+ * @desc Check if two arguments are identical. Not working on function elements.
+ * @param {*} a 
+ * @param {*} b 
+ * @return {boolean}
+ */
+const isIdentical = (a, b) => {
+    return typeof a !== 'object' && a === b || typeof a === 'object' && JSON.stringify(a) === JSON.stringify(b);
+};
+
 class ListNode {
     constructor(data, next = null) {
         this.data = data;
@@ -20,8 +30,8 @@ class SinglyLinkedList {
      * @desc Initialize the singly linked list with the first data (head).
      * @param {*} data
      */
-    constructor(head = null) {
-        this.head = head;
+    constructor() {
+        this.head = null;
         this.length = 0;
     }
 
@@ -71,17 +81,9 @@ class SinglyLinkedList {
         let current = this.head;
         let index = 0;
         while (current) {
-            const data = current.data;
-            const type = typeof data;
-
-            if (type !== 'object' && data === element) {
+            if (isIdentical(element, current.data)) {
                 return index;
             }
-
-            if (type === 'object' && JSON.stringify(data) === JSON.stringify(element)) {
-                return index;
-            }
-
             current = current.next;
             index++;
         }
@@ -103,7 +105,7 @@ class SinglyLinkedList {
             return this.push(element);
         }
 
-        const item = new NodeList(element);
+        const item = new ListNode(element);
 
         if (!this.length) {
             this.head = item;
@@ -140,9 +142,17 @@ class SinglyLinkedList {
     }
 
     /**
+     * @desc It removes and returns the last element from a list.
+     * @return {object}
+     */
+    pop() {
+        return this.removeAt(this.length - 1);
+    }
+
+    /**
      * @desc It is used to append the specified elements to the end of a list.
      * @param {...*} elements 
-     * @return {object|array}
+     * @return {*}
      */
     push(...elements) {
         const l = elements.length;
@@ -150,18 +160,58 @@ class SinglyLinkedList {
             throw 'Argument required!';
         }
 
-        const items = [];
-        for (let i = 0; i < l; i++) {
-            const item = new ListNode(element);
-            const last = this.getLast();
+        const first = new ListNode(elements[0]);
 
-            last.next = item;
+        let current = first;
+        for (let i = 1; i < l; i++) {
+            const item = new ListNode(elements[i]);
+            current.next = item;
+            current = current.next;
             this.length++;
-
-            items.push(item);
         }
 
-        return l > 1 ? items : items[0];
+        if (this.length) {
+            const last = this.getLast();
+            last.next = first;
+        } else {
+            this.head = first;
+        }
+
+        this.length++;
+
+        return l > 1 ? elements : elements[0];
+    }
+
+    /**
+     * @desc It removes the firstly found specified element.
+     * @param {*} element
+     * @return {object}
+     */
+    remove(element) {
+        const index = this.indexOf(element);
+        return this.removeAt(index);
+    }
+
+    /**
+     * @desc It is used to remove the element at the specified position in a list.
+     * @param {number} index 
+     * @return {object}
+     */
+    removeAt(index) {
+        const current = index ? this.get(index) : this.head;
+        const currentStr = JSON.stringify(current);
+        const next = this.get(index + 1);
+
+        if (!index) {
+            this.head = next;
+        } else {
+            const previous = this.get(index - 1);
+            previous.next = next;
+        }
+
+        this.length--;
+
+        return JSON.parse(currentStr);
     }
 
     /**
@@ -190,11 +240,15 @@ class SinglyLinkedList {
      * @desc It replaces the element at the specified position in a list with the specified element.
      * @param {number} index 
      * @param {*} element 
-     * @return {object}
+     * @return {object|null}
      */
     update(index, element) {
         const current = this.get(index);
-        current.data = element;
+        if (current) {
+            current.data = element;
+        } else {
+            this.insert(index, element);
+        }
         return current;
     }
 }
