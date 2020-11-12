@@ -135,7 +135,7 @@ class SinglyLinkedList {
 
     /**
      * @desc It is used to return the first element in a list.
-     * @return {*}
+     * @return {object|null}
      */
     peek() {
         return this.head;
@@ -159,7 +159,7 @@ class SinglyLinkedList {
         if (!l) {
             throw 'Argument required!';
         }
-
+        
         const first = new ListNode(elements[0]);
 
         let current = first;
@@ -167,7 +167,6 @@ class SinglyLinkedList {
             const item = new ListNode(elements[i]);
             current.next = item;
             current = current.next;
-            this.length++;
         }
 
         if (this.length) {
@@ -177,7 +176,7 @@ class SinglyLinkedList {
             this.head = first;
         }
 
-        this.length++;
+        this.length += l;
 
         return l > 1 ? elements : elements[0];
     }
