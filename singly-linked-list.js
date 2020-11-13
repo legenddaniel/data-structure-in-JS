@@ -5,7 +5,7 @@
  */
 const isNonNegativeInteger = input => {
     return typeof input === 'number' && input >= 0 && !(input % 1);
-}
+};
 
 /**
  * @desc Check if two arguments are identical. Not working on function elements.
