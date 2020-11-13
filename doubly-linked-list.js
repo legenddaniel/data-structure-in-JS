@@ -143,6 +143,22 @@ class DoublyLinkedList {
     }
 
     /**
+     * @desc It removes and returns the last element from a list.
+     * @return {object}
+     */   
+    pop() {
+        if (!this.length) {
+            return;
+        }
+        
+        const current = this.get(this.length - 1);
+        const last = this.get(this.length - 2);
+        this.tail = last;
+        last.next = null;
+        return current;
+    }
+
+    /**
      * @desc It is used to return the first element in a list.
      * @return {object|null}
      */
@@ -183,6 +199,50 @@ class DoublyLinkedList {
         this.length += l;
 
         return l > 1 ? elements : elements[0];
+    }
+
+    /**
+     * @desc It removes the firstly found specified element.
+     * @param {*} element
+     * @return {object|null}
+     */
+    remove(element) {
+        if (!this.length) {
+            return;
+        }
+
+        const index = this.indexOf(element);
+        return this.removeAt(index);
+    }
+
+    /**
+     * @desc It is used to remove the element at the specified position in a list.
+     * @param {number} index 
+     * @return {object|null}
+     */    
+    removeAt(index) {
+        if (!this.length || index > this.length - 1) {
+            return;
+        }
+
+        if (index === this.length - 1) {
+            return this.pop();
+        }
+
+        const current = this.get(index);
+        const next = this.get(index + 1);
+        if (index === 0) {
+            this.head = next;
+            next.prev = null;
+        } else {
+            const prev = this.get(index - 1);
+            prev.next = next;
+            next.prev = prev;
+        }
+
+        this.length--;
+
+        return current;
     }
 
     /**

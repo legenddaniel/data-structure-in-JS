@@ -146,7 +146,14 @@ class SinglyLinkedList {
      * @return {object}
      */
     pop() {
-        return this.removeAt(this.length - 1);
+        if (!this.length) {
+            return;
+        }
+
+        const current = this.get(this.length - 1);
+        const last = this.get(this.length - 2);
+        last.next = null;
+        return current;
     }
 
     /**
@@ -159,7 +166,7 @@ class SinglyLinkedList {
         if (!l) {
             throw 'Argument required!';
         }
-        
+
         const first = new ListNode(elements[0]);
 
         let current = first;
@@ -184,9 +191,13 @@ class SinglyLinkedList {
     /**
      * @desc It removes the firstly found specified element.
      * @param {*} element
-     * @return {object}
+     * @return {object|null}
      */
     remove(element) {
+        if (!this.length) {
+            return;
+        }
+
         const index = this.indexOf(element);
         return this.removeAt(index);
     }
@@ -194,11 +205,18 @@ class SinglyLinkedList {
     /**
      * @desc It is used to remove the element at the specified position in a list.
      * @param {number} index 
-     * @return {object}
+     * @return {object|null}
      */
     removeAt(index) {
-        const current = index ? this.get(index) : this.head;
-        const currentStr = JSON.stringify(current);
+        if (!this.length || index > this.length - 1) {
+            return;
+        }
+
+        if (index === this.length - 1) {
+            return this.pop();
+        }
+
+        const current = this.get(index);
         const next = this.get(index + 1);
 
         if (!index) {
@@ -210,7 +228,7 @@ class SinglyLinkedList {
 
         this.length--;
 
-        return JSON.parse(currentStr);
+        return current;
     }
 
     /**
