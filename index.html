@@ -11,31 +11,12 @@
     <script src="stack-by-array.js"></script>
     <script src="singly-linked-list.js"></script>
     <script src="set.js"></script>
+    <script src="hash-table.js"></script>
 
 
     <!-- Testing area -->
     <script>
-        const set = new CustomSet();
-        const superset = new CustomSet();
-
-        set.add(1,2,3,4,5)
-
-        superset.add(1,2,3,4,5, true, undefined, null, [1, 'a'], {a: 1, b: 2}, () => {});
-
-        // console.log(set);
-        // console.log(set.has(6));
-
-        // set.remove(3);
-
-        // console.log(set);
-        // console.log(set.size());
-        // console.log(set.values());
-
-        console.log(set.union(superset));
-        console.log(set.complement(superset));
-        console.log(superset.complement(set));
-        console.log(set.subset(superset));
-        console.log(set.intersection(superset));
+        document.write(hash('aaaavbaaa', 7))
     </script>
 </body>
 </html>
