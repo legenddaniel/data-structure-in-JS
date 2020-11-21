@@ -16,7 +16,31 @@
 
     <!-- Testing area -->
     <script>
-        document.write(hash('aaaavbaaa', 7))
+        const ht = new HashTable();
+        ht.set('a', 1);
+        ht.set('b', 12);
+        ht.set('hh', 14);
+        ht.set('hhh', 14);
+        ht.set('hasd', 16);
+        ht.set('hhdas', 16);
+        ht.set('dash', 16);
+        ht.set('hdash', 16);
+        ht.set('hhdash', 16);
+        ht.set('hhdh', 16);
+        ht.set('hhfh', 16);
+        ht.set('hhhg', 16);
+        ht.set('hdhhg', 16);
+        // document.write(JSON.stringify(ht))
+        console.log(ht)
+        // console.log(ht.keys())
+        // console.log(ht.values())
+        // console.log(ht.entries())
+
+        // ht.resize(7)
+
+        // ht.delete('b')
+        // console.log(ht)
+        // console.log(hash('hhggh', 13))
     </script>
 </body>
 </html>

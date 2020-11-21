@@ -6,7 +6,7 @@ Stack only defines the default constructor, which creates an empty stack. Stack 
 class StackByArray { // Should extends Vector
 
     /**
-     * @desc Initializes the stack with an array. If no argument passed will be initialized as an empty stack.
+     * @desc Initializes the stack with an array.
      */
     constructor() {
         this.items = [];

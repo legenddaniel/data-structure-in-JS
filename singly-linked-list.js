@@ -42,7 +42,7 @@ class SinglyLinkedList {
      */
     get(index) {
         if (!isNonNegativeInteger(index)) {
-            throw `Invalid Index! (min: 0, max: ${this.length - 1})`;
+            throw new Error(`Invalid Index! (min: 0, max: ${this.length - 1})`);
         }
 
         if (index > this.length - 1) {
@@ -98,7 +98,7 @@ class SinglyLinkedList {
      */
     insert(index, element) {
         if (!isNonNegativeInteger(index) || index > this.length) {
-            throw `Invalid Index! (min: 0, max: ${this.length})`;
+            throw new Error(`Invalid Index! (min: 0, max: ${this.length})`);
         }
 
         if (index === this.length) {
@@ -164,7 +164,7 @@ class SinglyLinkedList {
     push(...elements) {
         const l = elements.length;
         if (!l) {
-            throw 'Argument required!';
+            throw new Error('Argument required!');
         }
 
         const first = new ListNode(elements[0]);

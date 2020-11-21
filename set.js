@@ -8,6 +8,9 @@ const isSet = element => element instanceof CustomSet;
 // Elements will be transformed to string
 class CustomSet {
 
+    /**
+     * @desc Initializes the set with an object.
+     */
     constructor() {
         this.items = {};
     }
@@ -40,7 +43,7 @@ class CustomSet {
      */
     complement(set) {
         if (!isSet(set)) {
-            throw 'Parameter must be a Set';
+            throw new Error('Parameter must be a Set');
         }
 
         const that = new CustomSet();
@@ -69,7 +72,7 @@ class CustomSet {
      */
     intersection(set) {
         if (!isSet(set)) {
-            throw 'Parameter must be a Set';
+            throw new Error('Parameter must be a Set');
         }
 
         const that = new CustomSet();
@@ -110,7 +113,7 @@ class CustomSet {
      */
     subset(set) {
         if (!isSet(set)) {
-            throw 'Parameter must be a Set';
+            throw new Error('Parameter must be a Set');
         }
 
         for (let element of this.values()) {
@@ -129,7 +132,7 @@ class CustomSet {
      */
     union(set) {
         if (!isSet(set)) {
-            throw 'Parameter must be a Set';
+            throw new Error('Parameter must be a Set');
         }
 
         const that = new CustomSet();
