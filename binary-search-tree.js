@@ -118,8 +118,45 @@ class BinarySearchTree {
         return current;
     }
 
-    preOrder() {
+    /**
+     * @desc Traverse the BST
+     * @param {number} order -1: pre-order; 0: mid-order; 1: post-order
+     * @return {array}
+     */
+    traverse(order = 0) {
+        if (order < -1 || order > 1) {
+            throw new Error('Must be -1, 0 or 1!');
+        }
 
+        const entries = [];
+
+        const handler = node => {
+            entries.push({ key: node.key, value: node.value });
+        }
+        const traverseNode = node => {
+            if (node === null) {
+                return;
+            }
+            switch (order) {
+                case 1:
+                    handler(node);
+                    traverseNode(node.left);
+                    traverseNode(node.right);
+                    break;
+                case -1:
+                    traverseNode(node.left);
+                    traverseNode(node.right);
+                    handler(node);
+                    break;
+                default:
+                    traverseNode(node.left);
+                    handler(node);
+                    traverseNode(node.right);
+                    break;
+            }
+        };
+
+        traverseNode(this.root);
     }
 
 }
