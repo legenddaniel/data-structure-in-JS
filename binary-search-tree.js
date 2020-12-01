@@ -50,6 +50,35 @@ class BinarySearchTree {
     }
 
     /**
+     * @desc Get the the parent node by key
+     * @param {number|string} key 
+     * @return {object|null}
+     */
+    getParent(key) {
+        if (!isValidKey()) {
+            throw new Error('Key must be a number or string!');
+        }
+        let current = this.root;
+        let parent = null;
+        while (current) {
+            if (current.key === key) {
+                return parent;
+            }
+            if (key < current.key) {
+                parent = current;
+                current = current.left;
+                continue;
+            }
+            if (key > current.key) {
+                parent = current;
+                current = current.right;
+                continue;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @desc Insert an entry into the BST
      * @param {number|string} key 
      * @param {*} value 
@@ -119,6 +148,94 @@ class BinarySearchTree {
     }
 
     /**
+     * @desc Remove a node from BST
+     * @param {number|string} key 
+     * @return {object|null}
+     */
+    remove(key) {
+        if (!isValidKey()) {
+            throw new Error('Key must be a number or string!');
+        }
+
+        let current = this.root;
+        let parent = null;
+        let side = '';
+        while (current) {
+            if (current.key === key) {
+                const removed, { left, right } = current;
+
+                if (!left && !right) {
+                    if (current === this.root) {
+                        this.root = null;
+                    } else {
+                        parent[side] = null;
+                    }
+                } else if (!!left ^ !!right) {
+                    const child = left ? left : right;
+                    if (current === this.root) {
+                        this.root = child;
+                    } else {
+                        parent[side] = child;
+                    }
+                } else {
+                    /**
+                     * 1. current[lrEnd|rlEnd][r|l] = current[r|l]
+                     * 2. parent[side]|this.root = current[l|r]
+                     * 
+                     * Use where the lEnd|rEnd has less depth so the whole tree has less depth
+                     */
+                    let leftRightEnd = left;
+                    let leftDepth = 0;
+                    while (leftRightEnd.right) {
+                        leftRightEnd = leftRightEnd.right;
+                        leftDepth++;
+                    }
+                    let rightLeftEnd = right;
+                    let rightDepth = 0;
+                    while (rightLeftEnd.left) {
+                        rightLeftEnd = rightLeftEnd.left;
+                        rightDepth++;
+                    }
+
+                    const useRight = leftDepth > rightDepth;
+                    if (useRight) {
+                        rightLeftEnd.left = left;
+                        if (current === this.root) {
+                            this.root = right;
+                        } else {
+                            parent[side] = right;
+                        }
+                    } else {
+                        leftRightEnd.right = right;
+                        if (current === this.root) {
+                            this.root = left;
+                        } else {
+                            parent[side] = left;
+                        }
+                    }
+
+                }
+                return removed;
+            }
+
+            if (key < current.key) {
+                parent = current;
+                side = 'left';
+                current = current[side];
+                continue;
+            }
+            if (key > current.key) {
+                parent = current;
+                side = 'right';
+                current = current[side];
+                continue;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @desc Traverse the BST
      * @param {number} order -1: pre-order; 0: mid-order; 1: post-order
      * @return {array}
@@ -128,10 +245,10 @@ class BinarySearchTree {
             throw new Error('Must be -1, 0 or 1!');
         }
 
-        const entries = [];
+        const nodes = [];
 
         const handler = node => {
-            entries.push({ key: node.key, value: node.value });
+            nodes.push({ key: node.key, value: node.value });
         }
         const traverseNode = node => {
             if (node === null) {
@@ -157,6 +274,8 @@ class BinarySearchTree {
         };
 
         traverseNode(this.root);
+
+        return nodes;
     }
 
 }
