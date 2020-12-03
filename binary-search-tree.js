@@ -7,7 +7,7 @@ const isValidKey = key => typeof key === 'number' && key > 0 || typeof key === '
 
 class TreeNode {
     constructor(key, value, left = null, right = null) {
-        if (!isValidKey()) {
+        if (!isValidKey(key)) {
             throw new Error('Key must be a number or string!');
         }
         this.key = key;
@@ -29,7 +29,7 @@ class BinarySearchTree {
      * @return {object|null}
      */
     get(key) {
-        if (!isValidKey()) {
+        if (!isValidKey(key)) {
             throw new Error('Key must be a number or string!');
         }
         let current = this.root;
@@ -55,7 +55,7 @@ class BinarySearchTree {
      * @return {object|null}
      */
     getParent(key) {
-        if (!isValidKey()) {
+        if (!isValidKey(key)) {
             throw new Error('Key must be a number or string!');
         }
         let current = this.root;
@@ -85,7 +85,7 @@ class BinarySearchTree {
      * @return {object}
      */
     insert(key, value) {
-        if (!isValidKey()) {
+        if (!isValidKey(key)) {
             throw new Error('Key must be a number or string!');
         }
 
@@ -93,6 +93,7 @@ class BinarySearchTree {
 
         if (!this.root) {
             this.root = node;
+            return node;
         }
 
         let current = this.root;
@@ -153,7 +154,7 @@ class BinarySearchTree {
      * @return {object|null}
      */
     remove(key) {
-        if (!isValidKey()) {
+        if (!isValidKey(key)) {
             throw new Error('Key must be a number or string!');
         }
 
@@ -162,7 +163,8 @@ class BinarySearchTree {
         let side = '';
         while (current) {
             if (current.key === key) {
-                const removed, { left, right } = current;
+                const removed = current;
+                const { left, right } = current;
 
                 if (!left && !right) {
                     if (current === this.root) {

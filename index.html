@@ -12,35 +12,35 @@
     <script src="singly-linked-list.js"></script>
     <script src="set.js"></script>
     <script src="hash-table.js"></script>
+    <script src="binary-search-tree.js"></script>
 
 
     <!-- Testing area -->
     <script>
-        const ht = new HashTable();
-        ht.set('a', 1);
-        ht.set('b', 12);
-        ht.set('hh', 14);
-        ht.set('hhh', 14);
-        ht.set('hasd', 16);
-        ht.set('hhdas', 16);
-        ht.set('dash', 16);
-        ht.set('hdash', 16);
-        ht.set('hhdash', 16);
-        ht.set('hhdh', 16);
-        ht.set('hhfh', 16);
-        ht.set('hhhg', 16);
-        ht.set('hdhhg', 16);
-        // document.write(JSON.stringify(ht))
-        console.log(ht)
-        // console.log(ht.keys())
-        // console.log(ht.values())
-        // console.log(ht.entries())
+        const bst = new BinarySearchTree();
 
-        // ht.resize(7)
+        bst.insert(3,35)
+        bst.insert(6,35)
+        bst.insert(8,35)
+        bst.insert(23,35)
+        bst.insert(51,35)
+        bst.insert(1,35)
+        bst.insert(52,35)
+        bst.insert(7,35)
 
-        // ht.delete('b')
-        // console.log(ht)
-        // console.log(hash('hhggh', 13))
+        console.log(bst)
+        console.log(bst.min(), bst.max())
+        console.log(bst.get(23))
+        console.log(bst.getParent(23))
+
+        console.log(bst.traverse(-1))
+        console.log(bst.traverse(1))
+        console.log(bst.traverse(0))
+
+        bst.remove(23)
+        console.log(bst.traverse(-1))
+        console.log(bst.traverse(1))
+        console.log(bst.traverse(0))
     </script>
 </body>
 </html>
