@@ -36,7 +36,7 @@ class QueueByArray {
      */
     enqueue(...elements) {
         this.items.push(...elements);
-        return elements.length > 2 ? elements : element[0];
+        return elements.length > 2 ? elements : elements[0];
     }
 
     /**

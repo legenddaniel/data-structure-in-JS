@@ -13,34 +13,27 @@
     <script src="set.js"></script>
     <script src="hash-table.js"></script>
     <script src="binary-search-tree.js"></script>
+    <script src="graph.js"></script>
 
 
     <!-- Testing area -->
     <script>
-        const bst = new BinarySearchTree();
+        const graph = new Graph();
+        graph.addVertex(5);
+        graph.addVertex(1);
+        graph.addVertex(23);
+        graph.addVertex(56);
+        graph.addVertex(6);
 
-        bst.insert(3,35)
-        bst.insert(6,35)
-        bst.insert(8,35)
-        bst.insert(23,35)
-        bst.insert(51,35)
-        bst.insert(1,35)
-        bst.insert(52,35)
-        bst.insert(7,35)
+        graph.addEdges(5, 1)
+        graph.addEdges(5, 23)
+        graph.addEdges(56, 23)
+        graph.addEdges(6, 23)
+        graph.addEdges(6, 56)
 
-        console.log(bst)
-        console.log(bst.min(), bst.max())
-        console.log(bst.get(23))
-        console.log(bst.getParent(23))
+        console.log(graph.toString())
+        console.log(graph.dfs(23))
 
-        console.log(bst.traverse(-1))
-        console.log(bst.traverse(1))
-        console.log(bst.traverse(0))
-
-        bst.remove(23)
-        console.log(bst.traverse(-1))
-        console.log(bst.traverse(1))
-        console.log(bst.traverse(0))
     </script>
 </body>
 </html>
