@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <!-- Assets loading area -->
     <script src="queue-by-array.js"></script>
@@ -14,26 +16,21 @@
     <script src="hash-table.js"></script>
     <script src="binary-search-tree.js"></script>
     <script src="graph.js"></script>
+    <script src="sort.js"></script>
 
 
     <!-- Testing area -->
     <script>
-        const graph = new Graph();
-        graph.addVertex(5);
-        graph.addVertex(1);
-        graph.addVertex(23);
-        graph.addVertex(56);
-        graph.addVertex(6);
-
-        graph.addEdges(5, 1)
-        graph.addEdges(5, 23)
-        graph.addEdges(56, 23)
-        graph.addEdges(6, 23)
-        graph.addEdges(6, 56)
-
-        console.log(graph.toString())
-        console.log(graph.dfs(23))
+        // console.log(bubbleSort([2]))
+        // console.log(selectionSort([2]))
+        // console.log(insertionSort([2]))
+        // console.log(shellSort([2]))
+        // console.log(bubbleSort([2, 3, 1, 5, 4, 32, 6, -1, 0]))
+        // console.log(selectionSort([2, 3, 1, 5, 4, 32, 6, -1, 0]))
+        // console.log(insertionSort([2, 3, 1, 5, 4, 32, 6, -1, 0]))
+        console.log(shellSort([2, 3, 1, 5, 4, 32, 6, -1, 0]))
 
     </script>
 </body>
+
 </html>
