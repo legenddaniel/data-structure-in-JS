@@ -113,56 +113,62 @@ const quickSort = array => {
         throw new Error('Must pass an array!');
     }
 
-    const l = array.length;
+    console.log('Original: ', array);
 
     const handler = (left, right) => {
-        const interval = right - left;
-        if (interval < 1) {
-            return;
+        const l = right - left + 1;
+
+        if (l < 2) {
+            return array;
         }
 
-        if (interval === 1) {
+        if (l === 2) {
             if (array[left] > array[right]) {
                 [array[left], array[right]] = [array[right], array[left]];
             }
-            return;
+            return array;
         }
 
         // Get and set the pivots to the indices of 0, l - 2, l - 1. Use the mid one array[l - 2] for the next steps.
         const gap = Math.floor(l / 2);
-        for (let i = 0; i < l - gap; i += gap) {
-            if (array[i] > array[i + gap]) {
-                [array[i], array[i + gap]] = [array[i + gap], array[i]];
-            }
+        if (array[left] > array[left + gap]) {
+            [array[left], array[left + gap]] = [array[left + gap], array[left]];
         }
-        [array[gap], array[l - 2]] = [array[l - 2], array[gap]];
+        if (array[left + gap] > array[right]) {
+            [array[left + gap], array[right]] = [array[right], array[left + gap]];
+        }
+        if (array[left] > array[left + gap]) {
+            [array[left], array[left + gap]] = [array[left + gap], array[left]];
+        }
+
+        [array[left + gap], array[right - 1]] = [array[right - 1], array[left + gap]];
 
         if (l === 3) {
             return array;
         }
 
-        const pivot = array[l - 2];
-        let left = 0;
-        let right = l - 3;
+        const pivotIndex = right - 1;
+        const pivot = array[pivotIndex];
         while (left !== right) {
-            if (left < pivot) {
+            if (array[left] < pivot) {
                 left++;
+                continue;
             }
-            if (right > pivot) {
+            if (array[right] > pivot) {
                 right--;
+                continue;
             }
-            if (left > pivot && right < pivot) {
-                [array[left], array[right]] = [array[right], array[left]];
-                left++;
-                right--;
-            }
+            [array[left], array[right]] = [array[right], array[left]];
         }
-        [array[left], array[l - 2]] = [array[l - 2], array[left]];
+        [array[left], array[pivotIndex]] = [array[pivotIndex], array[left]];
 
-        handler(left);
+        console.log(array);
+
+        handler(0, left - 1);
+        handler(left + 1, l - 1);
     }
 
-    handler(l);
+    handler(0, array.length - 1);
 
     return array;
 
