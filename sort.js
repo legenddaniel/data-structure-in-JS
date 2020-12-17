@@ -1,6 +1,7 @@
 /**
  * @desc Bubble sort
  * @param {array} array 
+ * @return {array}
  */
 const bubbleSort = array => {
     if (!(array instanceof Array)) {
@@ -29,6 +30,7 @@ const bubbleSort = array => {
 /**
  * @desc Selection sort
  * @param {array} array 
+ * @return {array}
  */
 const selectionSort = array => {
     if (!(array instanceof Array)) {
@@ -56,7 +58,8 @@ const selectionSort = array => {
 
 /**
  * @desc Insertion sort
- * @param {array} array 
+ * @param {array} array
+ * @return {array}
  */
 const insertionSort = array => {
     if (!(array instanceof Array)) {
@@ -82,7 +85,8 @@ const insertionSort = array => {
 
 /**
  * @desc Shell sort
- * @param {array} array 
+ * @param {array} array
+ * @return {array} 
  */
 const shellSort = array => {
     if (!(array instanceof Array)) {
@@ -108,12 +112,15 @@ const shellSort = array => {
     return array;
 }
 
+/**
+ * @desc Quick sort
+ * @param {array} array 
+ * @return {array}
+ */
 const quickSort = array => {
     if (!(array instanceof Array)) {
         throw new Error('Must pass an array!');
     }
-
-    console.log('Original: ', array);
 
     const handler = (left, right) => {
         const l = right - left + 1;
@@ -129,7 +136,7 @@ const quickSort = array => {
             return array;
         }
 
-        // Get and set the pivots to the indices of 0, l - 2, l - 1. Use the mid one array[l - 2] for the next steps.
+        // Get and set the pivots to the indices of left, right, right + 1. Use the mid one array[right] for the next steps.
         const gap = Math.floor(l / 2);
         if (array[left] > array[left + gap]) {
             [array[left], array[left + gap]] = [array[left + gap], array[left]];
@@ -140,79 +147,40 @@ const quickSort = array => {
         if (array[left] > array[left + gap]) {
             [array[left], array[left + gap]] = [array[left + gap], array[left]];
         }
-
         [array[left + gap], array[right - 1]] = [array[right - 1], array[left + gap]];
 
         if (l === 3) {
             return array;
         }
 
+        let i = left;
+        let j = right - 1;
+
         const pivotIndex = right - 1;
         const pivot = array[pivotIndex];
-        while (left !== right) {
-            if (array[left] < pivot) {
-                left++;
+
+        // Swap array[i] with array[j] when array[i] > pivot and array[j] < pivot.
+        while (i !== j) {
+            if (array[i] <= pivot) {
+                i++;
                 continue;
             }
-            if (array[right] > pivot) {
-                right--;
+            if (array[j] >= pivot) {
+                j--;
                 continue;
             }
-            [array[left], array[right]] = [array[right], array[left]];
+            [array[i], array[j]] = [array[j], array[i]];
         }
-        [array[left], array[pivotIndex]] = [array[pivotIndex], array[left]];
 
-        console.log(array);
+        // Swap array[i]/array[j] with pivot when i === j.
+        [array[i], array[pivotIndex]] = [array[pivotIndex], array[i]];
 
-        handler(0, left - 1);
-        handler(left + 1, l - 1);
+        // Divide and process the left & right part.
+        handler(left, i - 1);
+        handler(i + 1, right);
     }
 
     handler(0, array.length - 1);
 
     return array;
-
-    const l = array.length;
-    if (l < 2) {
-        return array;
-    }
-
-    if (l === 2) {
-        if (array[0] > array[1]) {
-            [array[0], array[1]] = [array[1], array[0]];
-        }
-        return array;
-    }
-
-    // Get and set the pivots to the indices of 0, l - 2, l - 1. Use the mid one array[l - 2] for the next steps.
-    const gap = Math.floor(l / 2);
-    for (let i = 0; i < l - gap; i += gap) {
-        if (array[i] > array[i + gap]) {
-            [array[i], array[i + gap]] = [array[i + gap], array[i]];
-        }
-    }
-    [array[gap], array[l - 2]] = [array[l - 2], array[gap]];
-
-    if (l === 3) {
-        return array;
-    }
-
-    const pivot = array[l - 2];
-    let left = 0;
-    let right = l - 3;
-    while (left !== right) {
-        if (left < pivot) {
-            left++;
-        }
-        if (right > pivot) {
-            right--;
-        }
-        if (left > pivot && right < pivot) {
-            [array[left], array[right]] = [array[right], array[left]];
-            left++;
-            right--;
-        }
-    }
-    [array[left], array[l - 2]] = [array[l - 2], array[left]];
-
 }
