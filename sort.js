@@ -6,6 +6,7 @@
 const bubbleSort = (array) => {
   // time: n^2
   // space: 1
+  // stable: yes, always swap with adjacent so the ralative position remains
 
   if (!(array instanceof Array)) {
     throw new Error("Must pass an array!");
@@ -32,6 +33,7 @@ const bubbleSort = (array) => {
 const selectionSort = (array) => {
   // time: n^2
   // space: 1
+  // stable: no, most cases stable, but maybe like [5,5,5,4], the first 5 will be moved to the last
 
   if (!(array instanceof Array)) {
     throw new Error("Must pass an array!");
@@ -39,12 +41,15 @@ const selectionSort = (array) => {
 
   // Determine the first (smallest) number first, then move forward one by one
   for (let i = 0; i < array.length - 1; i++) {
+    // Find the smallest from the right side
+    let min = i;
     for (let j = i; j < array.length; j++) {
-      // Swap this and another if this > another so that the smallest is moved to the beginning after each outer loop
-      if (array[i] > array[j]) {
-        [array[i], array[j]] = [array[j], array[i]];
+      if (array[j] < array[min]) {
+        min = j;
       }
     }
+    // Swap current with the smallest
+    [array[i], array[min]] = [array[min], array[j]];
   }
 
   return array;
@@ -58,6 +63,8 @@ const selectionSort = (array) => {
 const insertionSort = (array) => {
   // time: n^2
   // space: 1
+  // stable: yes, same as bubble sort, always swap with adjacent
+
   if (!(array instanceof Array)) {
     throw new Error("Must pass an array!");
   }
@@ -85,6 +92,7 @@ const insertionSort = (array) => {
 const shellSort = (array) => {
   // time: n^2 (Math.floor(gap / 2) as gap)
   // space: 1
+  // stable: no, top of column does not mean top of array
 
   if (!(array instanceof Array)) {
     throw new Error("Must pass an array!");
@@ -147,6 +155,7 @@ const shellSort = (array) => {
 const mergeSort = (array) => {
   // time: nlogn
   // space: nlogn, can be improved by using pointer instead of create array slices
+  // stable: yes, the position of slices will not change
 
   if (!(array instanceof Array)) {
     throw new Error("Must pass an array!");
@@ -185,6 +194,7 @@ const mergeSort = (array) => {
 const quickSort = (array) => {
   // time: nlogn
   // space: logn
+  // stable: no, during Median-of-three those 3 elements can be randomly positioned.
 
   if (!(array instanceof Array)) {
     throw new Error("Must pass an array!");
@@ -250,7 +260,8 @@ const quickSort = (array) => {
 const heapSort = (array) => {
   // time: nlogn
   // space: 1
-  
+  // stable: no, can be randomly swapped by parents / children / root / leaves
+
   if (!(array instanceof Array)) {
     throw new Error("Must pass an array!");
   }
