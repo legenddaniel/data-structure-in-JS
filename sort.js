@@ -140,75 +140,102 @@ const shellSort = (array) => {
 };
 
 /**
+ * @desc Merge sort
+ * @param {array} array
+ * @return {array}
+ */
+const mergeSort = (array) => {
+  // time: nlogn
+  // space: nlogn, can be improved by using pointer instead of create array slices
+
+  if (!(array instanceof Array)) {
+    throw new Error("Must pass an array!");
+  }
+
+  const l = array.length;
+  if (l <= 1) return array;
+
+  const pivot = Math.floor(l / 2);
+
+  // Trigger the function to sort each part of current slice. In fact only array separation was done here.
+  const sortedLeft = mergeSort(array.slice(0, pivot)),
+    sortedRight = mergeSort(array.slice(pivot));
+
+  const ll = sortedLeft.length,
+    lr = sortedRight.length;
+
+  // Actual code for sorting a slice. After separate into slices sort them back recursively in increasing scale
+  let i = 0, j = 0;
+  for (let k = 0; k < l; k++) {
+    if (sortedLeft[i] < sortedRight[j] || j === lr) {
+      array[k] = sortedLeft[i++];
+    } else if (sortedLeft[i] >= sortedRight[j] || i === ll) {
+      array[k] = sortedRight[j++];
+    }
+  }
+
+  return array;
+}
+
+/**
  * @desc Quick sort
  * @param {array} array
  * @return {array}
  */
 const quickSort = (array) => {
+  // time: nlogn
+  // space: logn
+  
   if (!(array instanceof Array)) {
     throw new Error("Must pass an array!");
   }
 
-  const handler = (left, right) => {
-    const l = right - left + 1;
+  const handler = (start, end) => {
+    if (start === end) return;
 
-    if (l < 2) {
-      return array;
+    // Median-of-three to get pivot.
+    // Sort first, last and pivot.
+    const pivot = Math.floor((start + end) / 2);
+    if (array[start] > array[pivot]) {
+      [array[start], array[pivot]] = [array[pivot], array[start]];
+    }
+    if (array[start] > array[end]) {
+      [array[start], array[end]] = [array[end], array[start]];
+    }
+    if (array[pivot] > array[end]) {
+      [array[pivot], array[end]] = [array[end], array[pivot]];
     }
 
-    if (l === 2) {
-      if (array[left] > array[right]) {
-        [array[left], array[right]] = [array[right], array[left]];
-      }
-      return array;
+    if (end - start < 3) return;
+
+    // Swap new pivot element and second last element if new pivot is greater than second last one.
+    if (array[pivot] > array[end - 1]) {
+      [array[pivot], array[end - 1]] = [array[end - 1], array[pivot]];
     }
 
-    // Get and set the pivots to the indices of left, right, right + 1. Use the mid one array[right] for the next steps.
-    const gap = Math.floor(l / 2);
-    if (array[left] > array[left + gap]) {
-      [array[left], array[left + gap]] = [array[left + gap], array[left]];
-    }
-    if (array[left + gap] > array[right]) {
-      [array[left + gap], array[right]] = [array[right], array[left + gap]];
-    }
-    if (array[left] > array[left + gap]) {
-      [array[left], array[left + gap]] = [array[left + gap], array[left]];
-    }
-    [array[left + gap], array[right - 1]] = [
-      array[right - 1],
-      array[left + gap],
-    ];
-
-    if (l === 3) {
-      return array;
-    }
-
-    let i = left;
-    let j = right - 1;
-
-    const pivotIndex = right - 1;
-    const pivot = array[pivotIndex];
-
-    // Swap array[i] with array[j] when array[i] > pivot and array[j] < pivot.
+    // Move the pivot to the correct position
+    let i = start + 1, j = end - 2;
     while (i !== j) {
-      if (array[i] <= pivot) {
+      if (array[i] <= array[end - 1]) {
         i++;
         continue;
       }
-      if (array[j] >= pivot) {
+      if (array[j] >= array[end - 1]) {
         j--;
         continue;
       }
       [array[i], array[j]] = [array[j], array[i]];
     }
-
-    // Swap array[i]/array[j] with pivot when i === j.
-    [array[i], array[pivotIndex]] = [array[pivotIndex], array[i]];
-
-    // Divide and process the left & right part.
-    handler(left, i - 1);
-    handler(i + 1, right);
-  };
+    if (array[i] > array[end - 1]) {
+      // If pivot is being moved to the correct position
+      [array[i], array[end - 1]] = [array[end - 1], array[i]];
+      handler(start, i - 1);
+      handler(i + 1, end);
+    } else {
+      // If pivot is already at the correct position
+      handler(start, i);
+    }
+  }
 
   handler(0, array.length - 1);
 
