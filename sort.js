@@ -185,7 +185,7 @@ const mergeSort = (array) => {
 const quickSort = (array) => {
   // time: nlogn
   // space: logn
-  
+
   if (!(array instanceof Array)) {
     throw new Error("Must pass an array!");
   }
@@ -227,12 +227,12 @@ const quickSort = (array) => {
       [array[i], array[j]] = [array[j], array[i]];
     }
     if (array[i] > array[end - 1]) {
-      // If pivot is being moved to the correct position
+      // If pivot is being moved to the correct position (the pivot is the ith element of current slice)
       [array[i], array[end - 1]] = [array[end - 1], array[i]];
       handler(start, i - 1);
       handler(i + 1, end);
     } else {
-      // If pivot is already at the correct position
+      // If pivot is already at the correct position (the pivot is the second last element of current slice)
       handler(start, i);
     }
   }
@@ -241,3 +241,38 @@ const quickSort = (array) => {
 
   return array;
 };
+
+/**
+ * @desc Heap sort
+ * @param {array} array
+ * @return {array}
+ */
+const heapSort = (array) => {
+  // time: nlogn
+  // space: 1
+  
+  if (!(array instanceof Array)) {
+    throw new Error("Must pass an array!");
+  }
+
+  // Repeat the following steps so the xth largest is moved to xth last position.
+  for (let i = array.length; i > 1; i--) {
+    // For ascending sort, build a max heap (parents >= children).
+    // Start from the last non-leaf node (Math.floor(n / 2 - 1)). Swap parent with child (2i + 1, 2i + 2) to make the parent >= direct children.
+    // The largest is moved to the root.
+    for (let j = Math.floor(i / 2 - 1); j >= 0; j--) {
+      const child1 = 2 * j + 1, child2 = 2 * j + 2;
+      if (child1 < i && array[j] < array[child1]) {
+        [array[j], array[child1]] = [array[child1], array[j]];
+      }
+      if (child2 < i && array[j] < array[child2]) {
+        [array[j], array[child2]] = [array[child2], array[j]];
+      }
+    }
+
+    // Swap the root (largest) to the end
+    [array[0], array[i - 1]] = [array[i - 1], array[0]];
+  }
+
+  return array;
+}
