@@ -154,36 +154,38 @@ const shellSort = (array) => {
  */
 const mergeSort = (array) => {
   // time: nlogn
-  // space: nlogn, can be improved by using pointer instead of create array slices
+  // space: n
   // stable: yes, the position of slices will not change
 
   if (!(array instanceof Array)) {
     throw new Error("Must pass an array!");
   }
 
-  const l = array.length;
-  if (l <= 1) return array;
+  const handler = (start, end) => {
+    if (start === end) return [array[start]];
 
-  const pivot = Math.floor(l / 2);
+    const result = [];
 
-  // Trigger the function to sort each part of current slice. In fact only array separation was done here.
-  const sortedLeft = mergeSort(array.slice(0, pivot)),
-    sortedRight = mergeSort(array.slice(pivot));
+    const pivot = Math.floor((start + end) / 2);
+    const sortedLeft = handler(start, pivot),
+      sortedRight = handler(pivot + 1, end);
 
-  const ll = sortedLeft.length,
-    lr = sortedRight.length;
+    const ll = sortedLeft.length,
+      lr = sortedRight.length;
 
-  // Actual code for sorting a slice. After separate into slices sort them back recursively in increasing scale
-  let i = 0, j = 0;
-  for (let k = 0; k < l; k++) {
-    if (sortedLeft[i] < sortedRight[j] || j === lr) {
-      array[k] = sortedLeft[i++];
-    } else if (sortedLeft[i] >= sortedRight[j] || i === ll) {
-      array[k] = sortedRight[j++];
+    let i = 0, j = 0;
+    while (i < ll || j < lr) {
+      if (sortedLeft[i] < sortedRight[j] || j === lr) {
+        result.push(sortedLeft[i++]);
+      } else if (sortedLeft[i] >= sortedRight[j] || i === ll) {
+        result.push(sortedRight[j++]);
+      }
     }
+
+    return result;
   }
 
-  return array;
+  return handler(0, array.length - 1);
 }
 
 /**
