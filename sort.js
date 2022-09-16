@@ -190,68 +190,51 @@ const mergeSort = (array) => {
 
 /**
  * @desc Quick sort
- * @param {array} array
+ * @param {array} arr
  * @return {array}
  */
-const quickSort = (array) => {
+const quickSort = (arr) => {
   // time: nlogn
   // space: logn
-  // stable: no, during Median-of-three those 3 elements can be randomly positioned.
+  // stable: no, during partition those 3 elements can be randomly positioned.
 
-  if (!(array instanceof Array)) {
+  if (!(arr instanceof Array)) {
     throw new Error("Must pass an array!");
   }
 
-  const handler = (start, end) => {
-    if (start === end) return;
+  const partition = (arr, low, high) => {
+    // Your code here
+    let pivot = high
 
-    // Median-of-three to get pivot.
-    // Sort first, last and pivot.
-    const pivot = Math.floor((start + end) / 2);
-    if (array[start] > array[pivot]) {
-      [array[start], array[pivot]] = [array[pivot], array[start]];
-    }
-    if (array[start] > array[end]) {
-      [array[start], array[end]] = [array[end], array[start]];
-    }
-    if (array[pivot] > array[end]) {
-      [array[pivot], array[end]] = [array[end], array[pivot]];
-    }
-
-    if (end - start < 3) return;
-
-    // Swap new pivot element and second last element if new pivot is greater than second last one.
-    if (array[pivot] > array[end - 1]) {
-      [array[pivot], array[end - 1]] = [array[end - 1], array[pivot]];
-    }
-
-    // Move the pivot to the correct position
-    let i = start + 1, j = end - 2;
-    while (i !== j) {
-      if (array[i] <= array[end - 1]) {
+    // Move pivot to position
+    // After that, left contains elements < pivot, right contains elements >= pivot
+    let i = low, j = high;
+    while (i < j) {
+      if (arr[i] < arr[pivot]) {
         i++;
         continue;
       }
-      if (array[j] >= array[end - 1]) {
+      if (arr[j] >= arr[pivot]) {
         j--;
         continue;
       }
-      [array[i], array[j]] = [array[j], array[i]];
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+      i++;
     }
-    if (array[i] > array[end - 1]) {
-      // If pivot is being moved to the correct position (the pivot is the ith element of current slice)
-      [array[i], array[end - 1]] = [array[end - 1], array[i]];
-      handler(start, i - 1);
-      handler(i + 1, end);
-    } else {
-      // If pivot is already at the correct position (the pivot is the second last element of current slice)
-      handler(start, i);
-    }
+
+    [arr[i], arr[pivot]] = [arr[pivot], arr[i]]
+
+    return i
   }
 
-  handler(0, array.length - 1);
+  if (low >= high) return arr;
 
-  return array;
+  //code here
+  let pivot = partition(arr, low, high);
+  quickSort(arr, low, pivot - 1);
+  quickSort(arr, pivot + 1, high);
+
+  return arr;
 };
 
 /**
